@@ -1,26 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ShieldCheck, GitBranch, X } from 'lucide-react';
 
-interface ProjectBadgeProps {
-  projectName?: string;
-  projectUrl?: string;
-  description?: string;
-  authorName?: string;
-  authorHandle?: string;
-}
-
-export const ProjectBadge: React.FC<ProjectBadgeProps> = ({
-  projectName = 'ContractPulse CRM',
-  projectUrl = 'https://alxnrocha.github.io/java-crm/',
-  description = 'Gestão de Contratos B2B & Revenue Operations',
-  authorName = 'Alexandre Rocha',
-  authorHandle = '@alxnrocha',
-}) => {
+export const ProjectBadge: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
-
-  const handleClose = () => {
-    setIsVisible(false);
-  };
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
@@ -37,69 +18,78 @@ export const ProjectBadge: React.FC<ProjectBadgeProps> = ({
   return (
     <aside
       aria-label="Informações do Projeto"
-      className="fixed bottom-4 left-4 z-50 max-w-[340px] w-[calc(100vw-2rem)] bg-[#0d1117] border border-[#30363d] rounded-xl p-4 shadow-2xl text-slate-100 font-sans animate-in fade-in slide-in-from-bottom-3 duration-300 select-none"
+      style={{
+        position: 'fixed',
+        bottom: '16px',
+        left: '16px',
+        zIndex: 99999,
+        maxWidth: '340px',
+        width: 'calc(100vw - 32px)',
+        backgroundColor: '#0d1117',
+        border: '1px solid #30363d',
+        borderRadius: '14px',
+        padding: '16px',
+        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5)',
+        color: '#f0f6fc',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif',
+        fontSize: '13px',
+        letterSpacing: 'normal',
+        lineHeight: 1.4,
+        userSelect: 'none',
+        boxSizing: 'border-box',
+        textAlign: 'left',
+      }}
     >
-      {/* Header Row: Title + Tag + Close Button */}
-      <div className="flex items-start justify-between gap-2 mb-2">
-        <h2 className="text-sm font-bold text-white tracking-tight leading-tight truncate">
-          {projectName}
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '8px', marginBottom: '8px' }}>
+        <h2 style={{ fontSize: '14px', fontWeight: 700, color: '#ffffff', margin: 0, lineHeight: 1.2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif', letterSpacing: 'normal' }}>
+          ContractPulse CRM
         </h2>
-
-        <div className="flex items-center gap-1.5 shrink-0">
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#238636] text-white text-[10px] font-extrabold tracking-wide uppercase shadow-xs">
-            <ShieldCheck className="w-3 h-3 text-white" />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', padding: '2px 8px', borderRadius: '6px', backgroundColor: '#238636', color: '#ffffff', fontSize: '10px', fontWeight: 800, letterSpacing: '0.5px', textTransform: 'uppercase', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif' }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
             MEU PROJETO
           </span>
           <button
-            onClick={handleClose}
-            className="p-0.5 text-slate-400 hover:text-white rounded hover:bg-slate-800 transition-colors cursor-pointer"
+            onClick={() => setIsVisible(false)}
             title="Fechar (retorna em 5s)"
             aria-label="Fechar"
+            style={{ background: 'transparent', border: 'none', color: '#8b949e', cursor: 'pointer', padding: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '4px' }}
           >
-            <X className="w-3.5 h-3.5" />
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
           </button>
         </div>
       </div>
 
       {/* URL Link */}
-      <div className="mb-2">
-        <a
-          href={projectUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs text-[#58a6ff] hover:underline font-mono break-all line-clamp-1 block"
-        >
-          {projectUrl}
+      <div style={{ marginBottom: '8px' }}>
+        <a href="https://alxnrocha.github.io/java-crm/" target="_blank" rel="noopener noreferrer" style={{ color: '#58a6ff', textDecoration: 'underline', fontSize: '12px', fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace', wordBreak: 'break-all', display: 'block' }}>
+          https://alxnrocha.github.io/java-crm/
         </a>
       </div>
 
-      {/* Description / Developer */}
-      <p className="text-[11px] text-[#8b949e] leading-relaxed mb-3">
-        {description} • Desenvolvido por{' '}
-        <a
-          href="https://github.com/alxnrocha"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-slate-300 font-semibold hover:text-white hover:underline"
-        >
-          {authorName} ({authorHandle})
-        </a>
+      {/* Description */}
+      <p style={{ color: '#8b949e', fontSize: '11px', lineHeight: 1.4, margin: '0 0 12px 0', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif' }}>
+        Gestão de Contratos B2B & Revenue Operations • Desenvolvido por <a href="https://github.com/alxnrocha" target="_blank" rel="noopener noreferrer" style={{ color: '#c9d1d9', fontWeight: 600, textDecoration: 'none' }}>Alexandre Rocha (@alxnrocha)</a>
       </p>
 
-      {/* Footer Status Bar */}
-      <footer className="pt-2 border-t border-[#21262d] flex items-center justify-between text-[10px] text-[#8b949e]">
-        <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1 font-bold text-[#3fb950]">
-            <span className="w-2 h-2 rounded-full bg-[#238636] inline-block animate-pulse" />
+      {/* Footer */}
+      <footer style={{ paddingTop: '8px', borderTop: '1px solid #21262d', display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '10px', color: '#8b949e', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <span style={{ color: '#3fb950', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+            <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: '#238636', display: 'inline-block' }} />
             ATIVO
           </span>
-          <span className="text-slate-600">|</span>
-          <span className="inline-flex items-center gap-0.5 text-slate-300 font-mono">
-            <GitBranch className="w-3 h-3 text-slate-400" />
-            main
-          </span>
+          <span style={{ color: '#484f58' }}>|</span>
+          <span style={{ color: '#c9d1d9', fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace' }}>⑂ main</span>
         </div>
-        <span className="text-[#8b949e]">Atualizado recentemente</span>
+        <span>Atualizado recentemente</span>
       </footer>
     </aside>
   );
