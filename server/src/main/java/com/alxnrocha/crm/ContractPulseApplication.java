@@ -1,0 +1,12 @@
+package com.alxnrocha.crm;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ContractPulseApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(ContractPulseApplication.java, args);
+    }
+}
