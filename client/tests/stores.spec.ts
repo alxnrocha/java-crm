@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { useContractStore } from '@/stores/useContractStore';
 import { useMetricsStore } from '@/stores/useMetricsStore';
 import { useUIStore } from '@/stores/useUIStore';
+import { useToastStore, toast } from '@/stores/useToastStore';
 
 describe('Client API Engine & Zustand Stores', () => {
   beforeEach(() => {
@@ -13,6 +14,7 @@ describe('Client API Engine & Zustand Stores', () => {
       statusFilter: 'ALL',
       billingFilter: 'ALL',
     });
+    useToastStore.setState({ toasts: [] });
   });
 
   it('fetches contracts from mock engine with correct pagination', async () => {
@@ -61,12 +63,17 @@ describe('Client API Engine & Zustand Stores', () => {
     expect(overview?.revenueGrowth.length).toBe(12);
   });
 
-  it('manages UI state toggles correctly in useUIStore', () => {
+  it('manages UI state toggles and mobile menu in useUIStore', () => {
     const ui = useUIStore.getState();
     expect(ui.isSidebarCollapsed).toBe(false);
 
     ui.toggleSidebar();
     expect(useUIStore.getState().isSidebarCollapsed).toBe(true);
+
+    ui.toggleMobileMenu();
+    expect(useUIStore.getState().isMobileMenuOpen).toBe(true);
+    ui.closeMobileMenu();
+    expect(useUIStore.getState().isMobileMenuOpen).toBe(false);
 
     ui.openDrawer();
     expect(useUIStore.getState().isDrawerOpen).toBe(true);
@@ -75,5 +82,16 @@ describe('Client API Engine & Zustand Stores', () => {
 
     ui.openCommandPalette();
     expect(useUIStore.getState().isCommandPaletteOpen).toBe(true);
+  });
+
+  it('manages toast notifications correctly in useToastStore', () => {
+    toast.success('Test Toast', 'Success payload');
+    const { toasts } = useToastStore.getState();
+    expect(toasts.length).toBe(1);
+    expect(toasts[0].type).toBe('success');
+    expect(toasts[0].title).toBe('Test Toast');
+
+    useToastStore.getState().removeToast(toasts[0].id);
+    expect(useToastStore.getState().toasts.length).toBe(0);
   });
 });

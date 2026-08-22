@@ -8,6 +8,8 @@ import { Select } from '@/components/ui/Select';
 import { Button } from '@/components/ui/Button';
 import { INITIAL_ACCOUNTS } from '@/services/mockData';
 
+import { toast } from '@/stores/useToastStore';
+
 export const NewContractModal: React.FC = () => {
   const { isNewContractModalOpen, closeNewContractModal, openDrawer } = useUIStore();
   const { createContract } = useContractStore();
@@ -40,7 +42,7 @@ export const NewContractModal: React.FC = () => {
     setIsSubmitting(true);
     setError('');
     try {
-      await createContract({
+      const created = await createContract({
         accountId,
         title,
         totalValue: val,
@@ -51,6 +53,7 @@ export const NewContractModal: React.FC = () => {
         ownerName,
       });
 
+      toast.success('Contract Created', `Contract ${created?.contractNumber || ''} registered in Draft state.`);
       closeNewContractModal();
       openDrawer();
     } catch (err) {

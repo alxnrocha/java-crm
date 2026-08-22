@@ -4,6 +4,7 @@ import { useContractStore } from '@/stores/useContractStore';
 import { ContractStatus } from '@/types/crm';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import { toast } from '@/stores/useToastStore';
 import {
   X,
   CheckCircle2,
@@ -16,11 +17,14 @@ import {
   Clock,
   Sparkles,
   Plus,
+  Copy,
+  Check,
 } from 'lucide-react';
 
 export const ContractDrawer: React.FC = () => {
   const { isDrawerOpen, closeDrawer, openQuickRenewModal, openAmendmentModal } = useUIStore();
   const { selectedContract, updateContractStatus } = useContractStore();
+  const [copied, setCopied] = React.useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -65,6 +69,14 @@ export const ContractDrawer: React.FC = () => {
 
   const handleStatusChange = async (nextStatus: ContractStatus) => {
     await updateContractStatus(selectedContract.id, nextStatus);
+    toast.success('Status Transition', `Contract status moved to ${nextStatus.replace('_', ' ')}.`);
+  };
+
+  const handleCopyContractNumber = () => {
+    navigator.clipboard.writeText(selectedContract.contractNumber);
+    setCopied(true);
+    toast.info('Copied', `${selectedContract.contractNumber} copied to clipboard.`);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const handleDownloadPDF = () => {
@@ -78,6 +90,7 @@ export const ContractDrawer: React.FC = () => {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
+    toast.success('Export Complete', `Agreement for ${selectedContract.contractNumber} generated.`);
   };
 
   return (
@@ -96,9 +109,18 @@ export const ContractDrawer: React.FC = () => {
             <div className="flex items-start justify-between gap-4">
               <div>
                 <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                  <span className="font-mono text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
-                    {selectedContract.contractNumber}
-                  </span>
+                  <button
+                    onClick={handleCopyContractNumber}
+                    className="group inline-flex items-center gap-1 font-mono text-xs font-bold text-blue-600 bg-blue-50 hover:bg-blue-100/80 px-2 py-0.5 rounded border border-blue-100 transition-colors cursor-pointer"
+                    title="Click to copy contract number"
+                  >
+                    <span>{selectedContract.contractNumber}</span>
+                    {copied ? (
+                      <Check className="w-3 h-3 text-emerald-600" />
+                    ) : (
+                      <Copy className="w-3 h-3 text-blue-400 group-hover:text-blue-600" />
+                    )}
+                  </button>
                   <Badge variant="active" withDot size="sm">
                     {selectedContract.status}
                   </Badge>

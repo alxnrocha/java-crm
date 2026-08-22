@@ -5,6 +5,8 @@ import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
+import { toast } from '@/stores/useToastStore';
+
 export const AddAmendmentModal: React.FC = () => {
   const { isAmendmentModalOpen, closeAmendmentModal } = useUIStore();
   const { selectedContract, addAmendment } = useContractStore();
@@ -39,6 +41,7 @@ export const AddAmendmentModal: React.FC = () => {
         description,
       });
 
+      toast.success('Amendment Recorded', `Applied +$${delta.toLocaleString('en-US')} ARR to ${selectedContract.contractNumber}.`);
       closeAmendmentModal();
     } catch (err) {
       setError((err as Error).message);

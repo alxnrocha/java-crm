@@ -11,6 +11,7 @@ import { useUIStore } from '@/stores/useUIStore';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { toast } from '@/stores/useToastStore';
 import {
   Search,
   ArrowUpDown,
@@ -285,6 +286,7 @@ export const ContractsTable: React.FC = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    toast.success('Export Successful', `Exported ${contracts.length} contracts to CSV.`);
   };
 
   return (

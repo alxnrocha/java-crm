@@ -5,6 +5,8 @@ import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
 import { Sparkles, ArrowRight, CheckCircle2 } from 'lucide-react';
 
+import { toast } from '@/stores/useToastStore';
+
 export const QuickRenewModal: React.FC = () => {
   const { isQuickRenewModalOpen, closeQuickRenewModal } = useUIStore();
   const { selectedContract, quickRenewContract } = useContractStore();
@@ -26,6 +28,7 @@ export const QuickRenewModal: React.FC = () => {
     try {
       await quickRenewContract(selectedContract.id, durationMonths, rateAdjustment);
       setIsSuccess(true);
+      toast.success('Contract Auto-Renewed', `Renewed ${selectedContract.contractNumber} with +${rateAdjustment}% ARR expansion.`);
       setTimeout(() => {
         setIsSuccess(false);
         closeQuickRenewModal();

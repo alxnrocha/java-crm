@@ -12,6 +12,7 @@ import { NewContractModal } from '@/components/modals/NewContractModal';
 import { QuickRenewModal } from '@/components/modals/QuickRenewModal';
 import { AddAmendmentModal } from '@/components/modals/AddAmendmentModal';
 import { CommandPalette } from '@/components/modals/CommandPalette';
+import { ToastContainer } from '@/components/ui/ToastContainer';
 
 export default function App() {
   const { fetchContracts } = useContractStore();
@@ -33,11 +34,11 @@ export default function App() {
         <Header />
 
         {/* Dashboard Main Content Container */}
-        <main className="flex-1 p-6 space-y-6 max-w-7xl w-full mx-auto">
+        <main className="flex-1 p-4 sm:p-6 space-y-6 max-w-7xl w-full mx-auto">
           {/* Executive Page Title & Live Tag */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1">
             <div>
-              <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+              <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
                 Revenue Operations & B2B Contracts
               </h1>
               <p className="text-xs text-slate-500 mt-1">
@@ -81,6 +82,7 @@ export default function App() {
       <QuickRenewModal />
       <AddAmendmentModal />
       <CommandPalette />
+      <ToastContainer />
     </div>
   );
 }

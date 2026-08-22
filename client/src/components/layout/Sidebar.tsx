@@ -16,10 +16,17 @@ import {
   ChevronLeft,
   ChevronRight,
   Zap,
+  X,
 } from 'lucide-react';
 
 export const Sidebar: React.FC = () => {
-  const { isSidebarCollapsed, toggleSidebar, openNewContractModal } = useUIStore();
+  const {
+    isSidebarCollapsed,
+    toggleSidebar,
+    isMobileMenuOpen,
+    closeMobileMenu,
+    openNewContractModal,
+  } = useUIStore();
 
   const mainNav = [
     { label: 'Home', icon: <Home className="w-4 h-4" />, active: true },
@@ -39,12 +46,8 @@ export const Sidebar: React.FC = () => {
     { label: 'Settings', icon: <Settings className="w-4 h-4" /> },
   ];
 
-  return (
-    <aside
-      className={`bg-white border-r border-slate-200/90 h-screen sticky top-0 flex flex-col justify-between transition-all duration-200 z-40 select-none shadow-xs ${
-        isSidebarCollapsed ? 'w-18' : 'w-64'
-      }`}
-    >
+  const sidebarContent = (
+    <div className="h-full flex flex-col justify-between">
       {/* Brand Logo & Switcher */}
       <div>
         <div className="h-16 flex items-center px-5 border-b border-slate-100 justify-between">
@@ -52,7 +55,7 @@ export const Sidebar: React.FC = () => {
             <div className="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center text-white shrink-0 shadow-sm shadow-blue-500/30">
               <Zap className="w-4 h-4 fill-white" />
             </div>
-            {!isSidebarCollapsed && (
+            {(!isSidebarCollapsed || isMobileMenuOpen) && (
               <div className="truncate">
                 <span className="font-extrabold text-slate-900 tracking-tight text-base block leading-none">
                   ContractPulse
@@ -63,11 +66,21 @@ export const Sidebar: React.FC = () => {
               </div>
             )}
           </div>
+
+          {/* Close button on mobile */}
+          {isMobileMenuOpen && (
+            <button
+              onClick={closeMobileMenu}
+              className="md:hidden p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          )}
         </div>
 
         {/* Main Navigation Items */}
         <div className="p-3 space-y-1">
-          {!isSidebarCollapsed && (
+          {(!isSidebarCollapsed || isMobileMenuOpen) && (
             <div className="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
               Platform
             </div>
@@ -75,6 +88,9 @@ export const Sidebar: React.FC = () => {
           {mainNav.map((item) => (
             <button
               key={item.label}
+              onClick={() => {
+                if (isMobileMenuOpen) closeMobileMenu();
+              }}
               className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                 item.active
                   ? 'bg-blue-50 text-blue-700 shadow-2xs font-bold'
@@ -86,9 +102,11 @@ export const Sidebar: React.FC = () => {
                 <span className={`${item.active ? 'text-blue-600' : 'text-slate-400'}`}>
                   {item.icon}
                 </span>
-                {!isSidebarCollapsed && <span className="truncate">{item.label}</span>}
+                {(!isSidebarCollapsed || isMobileMenuOpen) && (
+                  <span className="truncate">{item.label}</span>
+                )}
               </div>
-              {!isSidebarCollapsed && item.badge && (
+              {(!isSidebarCollapsed || isMobileMenuOpen) && item.badge && (
                 <span
                   className={`px-1.5 py-0.2 text-[10px] rounded-full font-bold ${
                     item.active
@@ -106,7 +124,7 @@ export const Sidebar: React.FC = () => {
 
       {/* Bottom Nav & Collapse Trigger */}
       <div className="p-3 border-t border-slate-100 space-y-1">
-        {!isSidebarCollapsed && (
+        {(!isSidebarCollapsed || isMobileMenuOpen) && (
           <div className="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
             Workspace
           </div>
@@ -114,14 +132,19 @@ export const Sidebar: React.FC = () => {
         {bottomNav.map((item) => (
           <button
             key={item.label}
+            onClick={() => {
+              if (isMobileMenuOpen) closeMobileMenu();
+            }}
             className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer"
             title={item.label}
           >
             <div className="flex items-center gap-3">
               <span className="text-slate-400">{item.icon}</span>
-              {!isSidebarCollapsed && <span className="truncate">{item.label}</span>}
+              {(!isSidebarCollapsed || isMobileMenuOpen) && (
+                <span className="truncate">{item.label}</span>
+              )}
             </div>
-            {!isSidebarCollapsed && item.badge && (
+            {(!isSidebarCollapsed || isMobileMenuOpen) && item.badge && (
               <span className="px-1.5 py-0.2 text-[10px] rounded-full font-bold bg-purple-100 text-purple-700">
                 {item.badge}
               </span>
@@ -130,10 +153,13 @@ export const Sidebar: React.FC = () => {
         ))}
 
         {/* Quick CTA when expanded */}
-        {!isSidebarCollapsed && (
+        {(!isSidebarCollapsed || isMobileMenuOpen) && (
           <div className="pt-2">
             <button
-              onClick={openNewContractModal}
+              onClick={() => {
+                if (isMobileMenuOpen) closeMobileMenu();
+                openNewContractModal();
+              }}
               className="w-full py-2 px-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer"
             >
               <Zap className="w-3.5 h-3.5" />
@@ -142,10 +168,10 @@ export const Sidebar: React.FC = () => {
           </div>
         )}
 
-        {/* Collapse Button */}
+        {/* Desktop Collapse Button */}
         <button
           onClick={toggleSidebar}
-          className="w-full flex items-center justify-center gap-2 py-2 text-xs font-medium text-slate-400 hover:text-slate-700 hover:bg-slate-50 rounded-lg transition-colors cursor-pointer mt-1"
+          className="hidden md:flex w-full items-center justify-center gap-2 py-2 text-xs font-medium text-slate-400 hover:text-slate-700 hover:bg-slate-50 rounded-lg transition-colors cursor-pointer mt-1"
           title={isSidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
           {isSidebarCollapsed ? (
@@ -158,6 +184,34 @@ export const Sidebar: React.FC = () => {
           )}
         </button>
       </div>
-    </aside>
+    </div>
+  );
+
+  return (
+    <>
+      {/* Desktop Persistent Sidebar */}
+      <aside
+        className={`hidden md:flex bg-white border-r border-slate-200/90 h-screen sticky top-0 flex-col justify-between transition-all duration-200 z-40 select-none shadow-xs shrink-0 ${
+          isSidebarCollapsed ? 'w-18' : 'w-64'
+        }`}
+      >
+        {sidebarContent}
+      </aside>
+
+      {/* Mobile Drawer Overlay */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-50 md:hidden flex">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs transition-opacity"
+            onClick={closeMobileMenu}
+          />
+          {/* Drawer Panel */}
+          <div className="relative w-72 max-w-[85vw] bg-white h-full shadow-2xl flex flex-col z-10 animate-in slide-in-from-left duration-200">
+            {sidebarContent}
+          </div>
+        </div>
+      )}
+    </>
   );
 };

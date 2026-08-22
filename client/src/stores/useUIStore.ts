@@ -2,6 +2,7 @@ import { create } from 'zustand';
 
 interface UIState {
   isSidebarCollapsed: boolean;
+  isMobileMenuOpen: boolean;
   isDrawerOpen: boolean;
   isNewContractModalOpen: boolean;
   isQuickRenewModalOpen: boolean;
@@ -11,6 +12,8 @@ interface UIState {
 
   // Actions
   toggleSidebar: () => void;
+  toggleMobileMenu: () => void;
+  closeMobileMenu: () => void;
   openDrawer: () => void;
   closeDrawer: () => void;
   openNewContractModal: () => void;
@@ -26,6 +29,7 @@ interface UIState {
 
 export const useUIStore = create<UIState>((set) => ({
   isSidebarCollapsed: false,
+  isMobileMenuOpen: false,
   isDrawerOpen: false,
   isNewContractModalOpen: false,
   isQuickRenewModalOpen: false,
@@ -34,6 +38,8 @@ export const useUIStore = create<UIState>((set) => ({
   notificationCount: 12,
 
   toggleSidebar: () => set((state) => ({ isSidebarCollapsed: !state.isSidebarCollapsed })),
+  toggleMobileMenu: () => set((state) => ({ isMobileMenuOpen: !state.isMobileMenuOpen })),
+  closeMobileMenu: () => set({ isMobileMenuOpen: false }),
   openDrawer: () => set({ isDrawerOpen: true }),
   closeDrawer: () => set({ isDrawerOpen: false }),
   openNewContractModal: () => set({ isNewContractModalOpen: true }),
