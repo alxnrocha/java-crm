@@ -1,0 +1,16 @@
+package com.alxnrocha.crm.enums;
+
+public enum Industry {
+    CYBERSECURITY,
+    FINTECH,
+    CLOUD_OBSERVABILITY,
+    DATA_PLATFORM,
+    DATABASE_SYSTEMS,
+    DESIGN_SAAS,
+    DEVOPS_INFRASTRUCTURE,
+    FRONTEND_CLOUD,
+    AI_ML,
+    ECOMMERCE,
+    HEALTHCARE,
+    OTHER
+}

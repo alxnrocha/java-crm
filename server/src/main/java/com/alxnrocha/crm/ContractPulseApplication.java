@@ -7,6 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ContractPulseApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ContractPulseApplication.java, args);
+        SpringApplication.run(ContractPulseApplication.class, args);
     }
 }
