@@ -48,7 +48,7 @@ public class Contact {
     private String avatarUrl;
 
     @Column(name = "is_primary", nullable = false)
-    private boolean isPrimary;
+    private boolean primary;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
