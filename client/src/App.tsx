@@ -13,6 +13,7 @@ import { QuickRenewModal } from '@/components/modals/QuickRenewModal';
 import { AddAmendmentModal } from '@/components/modals/AddAmendmentModal';
 import { CommandPalette } from '@/components/modals/CommandPalette';
 import { ToastContainer } from '@/components/ui/ToastContainer';
+import { ProjectBadge } from '@/components/ui/ProjectBadge';
 
 export default function App() {
   const { fetchContracts } = useContractStore();
@@ -76,13 +77,18 @@ export default function App() {
         </main>
       </div>
 
-      {/* 3. Interactive Drawers and Modals */}
+      {/* 3. Interactive Drawers, Modals & Verified Project Badge */}
       <ContractDrawer />
       <NewContractModal />
       <QuickRenewModal />
       <AddAmendmentModal />
       <CommandPalette />
       <ToastContainer />
+      <ProjectBadge
+        projectName="ContractPulse CRM"
+        projectUrl="https://alxnrocha.github.io/java-crm/"
+        description="Gestão de Contratos B2B & Revenue Operations"
+      />
     </div>
   );
 }
