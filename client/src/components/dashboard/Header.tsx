@@ -36,12 +36,12 @@ export const Header: React.FC = () => {
 
         {/* Notifications */}
         <button
-          className="relative p-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+          className="relative w-9 h-9 flex items-center justify-center rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200/80 bg-white shadow-2xs transition-all cursor-pointer"
           title="Notifications"
         >
-          <Bell className="w-4 h-4" />
+          <Bell className="w-5 h-5 text-slate-600" />
           {notificationCount > 0 && (
-            <span className="absolute top-1.5 right-1.5 w-4 h-4 bg-blue-600 text-white rounded-full text-[9px] font-bold flex items-center justify-center border-2 border-white">
+            <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 bg-blue-600 text-white rounded-full text-[10px] font-bold flex items-center justify-center border-2 border-white shadow-xs leading-none">
               {notificationCount > 9 ? '9+' : notificationCount}
             </span>
           )}
