@@ -84,11 +84,7 @@ export default function App() {
       <AddAmendmentModal />
       <CommandPalette />
       <ToastContainer />
-      <ProjectBadge
-        projectName="ContractPulse CRM"
-        projectUrl="https://alxnrocha.github.io/java-crm/"
-        description="Gestão de Contratos B2B & Revenue Operations"
-      />
+      <ProjectBadge />
     </div>
   );
 }
