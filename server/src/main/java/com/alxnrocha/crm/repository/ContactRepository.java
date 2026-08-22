@@ -13,5 +13,5 @@ public interface ContactRepository extends JpaRepository<Contact, UUID> {
 
     List<Contact> findByAccountId(UUID accountId);
 
-    Optional<Contact> findByAccountIdAndIsPrimaryTrue(UUID accountId);
+    Optional<Contact> findByAccountIdAndPrimaryTrue(UUID accountId);
 }
